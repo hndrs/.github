@@ -1,0 +1,11 @@
+{
+  "name": "Gradle Publish",
+  "description": "Hndrs Organization CI publish workflow",
+  "iconName": "gradle",
+  "categories": [
+    "Gradle"
+  ],
+  "filePatterns": [
+    "build.gradle.kts$"
+  ]
+}

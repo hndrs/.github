@@ -1,9 +1,9 @@
 {
-  "name": "Hndrs Gradle Check",
-  "description": "Octo Organization CI workflow template.",
+  "name": "Gradle Quality Checks",
+  "description": "Hndrs gradle check and sonarcloud",
   "iconName": "gradle",
   "categories": [
-    "Gradle"
+    "gradle"
   ],
   "filePatterns": [
     "build.gradle.kts$"
