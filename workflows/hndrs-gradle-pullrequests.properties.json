@@ -1,0 +1,11 @@
+{
+  "name": "Hndrs Gradle Check",
+  "description": "Octo Organization CI workflow template.",
+  "iconName": "gradle",
+  "categories": [
+    "Gradle"
+  ],
+  "filePatterns": [
+    "build.gradle.kts$"
+  ]
+}
