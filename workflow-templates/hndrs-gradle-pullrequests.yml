@@ -8,7 +8,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -24,7 +23,7 @@ jobs:
         with:
           java-version: '11'
 
-      - name: setup build cache
+      - name: gradle cache
         uses: actions/cache@v2
         with:
           path: |
@@ -34,15 +33,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: tests
+      - name: sonar cache
+          uses: actions/cache@v1
+          with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os }}-sonar
+            restore-keys: ${{ runner.os }}-sonar
+
+      - name: test
         run: |
           ./gradlew check
 
-      - name: publish
-        env:
-          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: |
-          ./gradlew publish
+      - name: analyze
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          run: ./gradlew build sonarqube --info
