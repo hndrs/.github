@@ -1,6 +1,6 @@
 {
-  "name": "Gradle Quality Checks",
-  "description": "Hndrs gradle check and sonarcloud",
+  "name": "Gradle check",
+  "description": "Hndrs Organization CI check workflow",
   "iconName": "gradle",
   "categories": [
     "gradle"

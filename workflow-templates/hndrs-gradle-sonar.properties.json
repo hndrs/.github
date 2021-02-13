@@ -1,0 +1,11 @@
+{
+  "name": "Gradle Sonar",
+  "description": "Hndrs Organization CI sonar workflow",
+  "iconName": "gradle",
+  "categories": [
+    "gradle"
+  ],
+  "filePatterns": [
+    "build.gradle.kts$"
+  ]
+}
