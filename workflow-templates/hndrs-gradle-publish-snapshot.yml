@@ -1,19 +1,16 @@
-name: analyse
+name: gradle
 
 # Controls when the action will run.
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened ]
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  analyse:
+  publish-snapshot:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +24,7 @@ jobs:
         with:
           java-version: '11'
 
-      - name: gradle cache
+      - name: setup build cache
         uses: actions/cache@v2
         with:
           path: |
@@ -36,16 +33,11 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      - name: sonar cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: analyze
+      - name: publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew check jacocoTestReport sonarqube --info
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        run: |
+          ./gradlew publish
